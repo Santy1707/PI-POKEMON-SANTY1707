@@ -1,0 +1,124 @@
+Base de datos
+
+/// INICIANDO SEQUELIZE
+
+var Sequelize = require("sequelize"); //requerimos el modulo
+var sequelize = new Sequelize('postgres://user:pass@example.com:5432/dbname');
+// podria pasarle opciones donde logging al ser true me sale por consola todos los comandos que utilizo sequelize para ejecutar los cambios que mas adelante vamos a hacer (objeto sequelize lineas 5 y 4)
+ 
+1) force true --> elimina (drop) la tabla y luego la vuevle a crear
+--- > model.sync(): crea la tabla si no existe o no hace nada si ya existe
+--- > alter: true : aplica los cambios necesarios a la tabla actual para que coincida con el modelo
+
+2) force false --> no guarda los cambios si la base de datos ya existe, se complementa con alter: true
+
+
+3) listen true --> los mantiene creados cada vez que vuelvo a levantar el back 
+
+
+4) Modelos --> Crear las tablas por medio de sequelize -- 
+
+var User = sequelize.define('user', {
+  firstName: {
+    type: Sequelize.STRING,
+    field: 'first_name' //el nombre en la base de datos va a ser first_name
+  },
+  lastName: {
+    type: Sequelize.STRING
+  }
+});
+
+
+5) Sitema CRUD (Create - Read - Update - Delete)
+
+
+6) metodos de sequelize
+
+Create para crear, Save para actualizar cambios 
+Destroy para eliminar, Update para actualizar
+Usamos Find para buscar registros, puede ser findAll(): esta sirve para buscar multiples registros , findOne(): esta sirve para buscar un solo registro y findByID(): sirve para buscar como la anterior pero por ID del registro.
+
+Ejemplo:
+
+// --------- Finders
+
+const instancias = await Model.findAll({
+    attributes: ['foo', 'bar']
+})
+const instancias = await Model.findAll({
+    attributes: ['foo', ['baz', 'bar']]
+})
+const instancias = await Model.findAll({
+    attributes: { exclude: ['bar']}
+})
+
+const instance = await Model.findByPk(4); // null si no lo encuentra
+
+const instance = await Model.findOne({
+where: { name: 'Goku' }
+}); // null si no lo encuentra
+
+const [instance, created] = await Model.findOrCreate({
+where: { name: 'Goku' },
+defaults: {
+gender: 'M',
+race: 'Saiyan'
+}
+});
+
+
+//  EL Op de sequelize me permite hace operaciones, como el AND de SQL 
+
+const { Op } = require("sequelize");
+Model.findAll({
+where: {
+[Op.and]: [{ a: 5 }, { b: 6 }], // (a = 5) AND (b = 6)
+[Op.or]: [{ a: 5 }, { b: 6 }], // (a = 5) OR (b = 6)
+someAttribute: {
+// Basics
+[Op.eq]: 3, // = 3
+[Op.ne]: 20, // != 20
+[Op.is]: null, // IS NULL
+[Op.not]: true, // IS NOT TRUE
+// Number comparisons
+[Op.gt]: 6, // > 6
+[Op.lt]: 10, // < 10
+[Op.between]: [6, 10], // BETWEEN 6 AND 10
+[Op.notBetween]: [11, 15], // NOT BETWEEN 11 AND 15
+// Other operators
+[Op.in]: [1, 2], // IN [1, 2]
+[Op.notIn]: [1, 2], // NOT IN [1, 2]
+
+...
+
+}
+}
+});
+
+7) que es un ORM --> es un traductor, esta entre la base de datos y nosotros (el back o express), por ejemplo sequelize, para hablar con la base de datos usamos sql, enviamos las cosas usando el tipo de dato objeto, que es lo mas apropiado para trabajar con una tabla, entonces Sequelize lee el codigo balga la redundancia en forma de objeto y por medio de sus metodos trabaja con la DataBase.
+
+8) que es una primary key o foreign key
+
+--> 1) 
+
+Foreign Key (FK): Es un atributo que indentifica una fila en otra tabla.
+Primary Key (PK): Es un atributo o conjunto de atributos que indentifica unívocamente a una tabla.
+
+
+
+1. Pasar de async away a promesas (pendiente)
+
+6. como se conecta el back con el front --> Por medio de las rutas que se generan en el back, se hace una peticion con axios o fetch en el front a la ruta que sale del back y luego esa informacion se guarda y se pasa como payload en las acciones
+
+
+9. Crear filtro nuevo con dato diferente (pendiente)
+
+
+10. Explicar ciclo/recorrido del post/get --> el post es crear y guardar informacion, se crea en el front y se le como payload a la action que utiliza la ruta post que sale del back, esta ruta recibe dicha info y trabaja con ella aplicandole la logica para guardarla en el lugar donde se almacena la informacion, en nuestro caso en la base de datos.
+
+La ruta get envia informacion al front, es decir, cuando hagas get a esta ruta yo te retorno determinada info, en el front aplicamos fetch o axios a esa ruta (con axios no hay que pasarla de Json a JS, con fetch si) y pasamos esa informacion como payload de nuestra action para que con esta trabaje el reducer indicado. 
+
+
+Que es axios? Porque usaste axios/fetch? --> es una libreria que nos permite hacer varios tipos de peticiones y una de las grandes diferencias es que axios ya devuelve la informacion en JS, con fetch es necesario transformarla para poderla utilizar, esa es la razon por la que elegí usar axios en lugar de fetch.
+
+

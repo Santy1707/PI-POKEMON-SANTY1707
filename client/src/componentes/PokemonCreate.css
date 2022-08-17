@@ -1,0 +1,61 @@
+.contenedor-principal-create{
+    width: 50%;
+    margin: 0 auto;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;      
+    height: 100%;
+    width: 100%;       
+    overflow-y: scroll;
+    position: fixed;
+    background-color: bisque;
+    overflow-anchor: 10px;
+}
+
+.container-poke-image{
+    background-color: rgb(234, 0, 255);
+    width: 22rem;
+    border-style: solid;
+    border-color: #61dafb;
+}
+.contenedor-principal-create h1{
+    color: rgb(55, 0, 255);
+    font-size: 1.5rem;
+    padding-left: 0;
+}
+.contenedor-principal-create form div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    border-radius: 10%;
+}
+.contenedor-principal-create form div input{
+    padding: 5px 8px;
+    border-radius: 25%;
+}
+.form{
+    display: flex;
+    font-family: 'Orelega One', cursive;
+    flex-direction: column;
+    align-items: center;
+
+}
+.select{
+    padding: 5px;
+    margin: 20px 0px;
+    width: 189px;
+}
+
+.regresar{
+    background-color: rgb(95, 43, 76);
+	border-radius: 5px;
+	color: rgb(243, 231, 255) ;
+	margin:20px 0px;
+    width:150px;
+	cursor:pointer;
+	padding: 8px;
+}
+.error{
+    color: red;
+}

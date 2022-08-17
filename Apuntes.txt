@@ -1,0 +1,384 @@
+SOBRE LAS APIS
+
+
+
+
+--> Para renderizar los pokemones o para ver la informacion de cada uno yo puedo poner o el numero del id o el nombre del pokemon
+
+--> https://pokeapi.co/api/v2/pokemon/bulbasaur/
+--> https://pokeapi.co/api/v2/pokemon/1/
+SON LO MISMO!!
+
+
+
+
+
+FRONT --> 
+
+1) Crear el Store usando middleware thunk, el rootreducer y composeWithDevTools
+
+2) Me voy al index de la app para pasarle el store, por lo cual necesito usar el provider, importante envolver todo en el provider
+
+
+El Componente Provider
+Librerías como Redux necesitan hacer accesibles los datos de almacenamiento a todo el árbol de componente React desde el componente raíz. El patrón Provider permite a la librería pasar datos de arriba a abajo.
+
+
+3) Ahora nos pasamos al app para envolver todo en el router. --> importamos BrowserRouter, Route, Switch (recordar que trabajamos con la version 5 de react-router-dom)
+
+4) Ahora conforme al Readme Creamos todos los componentes necesarios para la app - 
+
+--- 1) Landing Page: deben armar una landing page con
+
+[ ] Alguna imagen de fondo representativa al proyecto
+[ ] Botón para ingresar al home (Ruta principal)
+
+
+5) Vamos a proceder a las actions, aqui usamos axios para hacer la conexion por medio de una funcion asincrona entre el Front y el Back, conectando con la ruta que me trae los pokemones, en mi caso localhost:3001/pokemons/
+
+--> Seguimos con la primera action - una vez que tiene la informacion guardada en la variable utilizamos la data que devuelve axios para ponerla como la payload de la action.
+
+6) En el reducer vamos a crear un estado inicial 
+
+--> en principio un array vacio, y luego dependiendo de la action.type hacemos una copia (con el spread operator) y luego lo llenamos con la data que nos traiga la funcion en su action.payload
+
+7) Nos vamos al Home donde empezamos a utilizar los hooks, primero creamos una variable para guardar useDispatch, la vamos a ir utilizando para despachar las acciones
+
+--> Luego creamos una variable allPokemons donde guardamos el useSelecter que toma como parametros el array pokemons del estado ((state) => state.pokemons)
+--> Luego usamos el useEffect donde despachamos la accion por medio del dispatch, es un reemplazo de mapStateToProps, ponemos el array (segundo parametro) vacio porque no depende de nada.
+
+8) Creamos un link a /pokemons/
+
+  <div>
+    <Link to='/pokemons'>Crear personaje</Link>
+    <h1>Los Pokemones son lo maximo!</h1>  hay un manejador de clicks para tener el preventDefault y luego tenemos el dispatch que vuelve a traer los   pokemones, esto es porque estamos recargando
+    <button onClick={e => {handleClick(e)}}> 
+        Volver a cargar todos los pokemons
+    </button> 
+    <div>
+9) Creamos las opciones para los filtrados
+
+--> un nuevo div con los select y option (propios de HTML)
+
+
+Comentarios sobre el Home
+
+{/*// es como el componentDidMount
+// le doy click y me trae todo de vuelta.
+ // las opciones tiene su value para poder determinar que accion hacer en cada caso
+// esto es lo mismo que hacer el mapState to props, con el use selector se trae todo lo del state en este caso el pokemons
+// importante este array, aqui daria indicaciones sobre la interrelacion entre lo que haya en el estado, ejemplo: siempre y cuando haya tal cosa ejecuta o anteriores - se lo pasamos vacio porque no depende de nada y se lo va a montar tranquilo
+*/}
+
+
+---- TERCERA PARTE  
+ 
+Ahora nos vamos a crear mas estados para poder hacer el paginado 
+
+
+const [currentPage, setCurrentPage] = useState(1) 
+const [pokemonsPerPage, setPokemonsPerPage] = useState(12) 
+
+const indexOfLastPokemon = currentPage * pokemonsPerPage // 12
+
+const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage // 0
+
+const currentPokemons = allPokemons
+
+
+1) Primero le paso el estado actual en donde le paso la pagina actual y cual va a ser la pagina actual, arranca en 1
+2) Otro estado local donde le digo cuantos pokemons quiero por pagina, arranca en 12
+3) Seteo el index del ultimo pokemon, que va a ser la pagina actual por el numero de pokemones que quiero renderizar, es decir, si estoy en la pagina 1 1*12 = 12, ese va a ser el ultimo, luego 2*12 = 24, ese es el ultimo en esa segunda pagina
+4) Ahora el indice del primer pokemon para cada pagina, la cantidad que tengo por pargina - el indice del ultimo personaje, primero 12 - 12 = 0, luego 24 - 12 = 12, estoy en el ultimo personaje entonces, 
+5) Luego en una variable guardo el slice que le hago a donde estan todos los personajes, que valores va a tomar, el indice del primer personaje y el indice del ultimo personaje.
+
+la funcion paginado hace el setCurrentPage para que toda la renderizacion cambie, para que cambien los valores del slice
+
+
+
+
+ACTIONS Y LLAMADOS A APIS DESDE EL FRONT
+
+Ejemplo de una action:
+
+// EN ESTE CASO ES ASYNCRONICO
+
+export function getMovies(titulo) { // esta es una funcion creadora de acciones
+  
+  // el middleware toma esta funcion de adentro y le pasa el dispatch, la funcion recibe el parametro como dispatch, luego el middleware lo ejecuta, cumpliendo su tarea de hacer el dispatch, pero necesita que yo le de un lugar a donde pueda pasar el dispatch, por eso lo recibe como parametro.
+
+  return function (dispatch) { // es necesario devolver una funcion
+    return fetch (`urldelaApi` + titulo) --> aqui el fetch hace un get
+    .then((response) => response.json()) --> la respueseta se pasa a objeto (porque fetch devuelve formato json)
+    .then((json) => {                           --> este json ya es el resultado final en forma de objeto
+      dispatch({type: 'GET_MOVIES', payload: json}); --> realmente esta es la action, el type y el payload
+    })
+  }
+
+}
+
+// el middleware
+
+
+REDUCERS --> EJECUTAN LAS ACTIONS
+
+AQUÍ CREAMOS EL ESTADO inicial
+
+const initialState = {
+  moviesFavourites: [], --> creo el estado inicial
+  moviesLoaded: [], --> otro lugar para almacenar ciertas peliculas
+  movieDetail: {} --> un objeto donde se va a guardar el detalle de la pelicula
+}
+
+function rootReducer(state = initialState, action) {
+  switch(action.type) {
+    
+    case 'GET_MOVIES':
+    return {
+      ...state,
+      moviesLoaded: action.payload.Search (este Search es porque en el API hay una propiedad llamada Search, depende de la API)
+    }
+    
+    case 'ADD_MOVIE_FAVOURITE':
+    return {
+      ...state,
+      moviesFavourites: state.moviesFavourites.concat(action.payload) --> tambipen se puede hacer un spread [...state.moviesFavourites, action.payload]
+    }
+
+    case 'REMOVE_MOVIE_FAVORITE':
+    return {
+      ...state,
+      moviesFavourite: state.moviesFavourite.filter(movie => movie.id !== action.payload)
+    } 
+    
+    case 'REMOVE_MOVIE_FAVORITE':
+    return {
+      ...state,
+      moviesFavourite: state.moviesFavourite.filter(movie => movie.id !== action.payload)
+    }
+  
+    case 'GET_DETAIL':
+    return{
+      ..state,
+      movieDetal: action.payload
+    }
+
+    default: return state
+  }
+}
+
+export default rootReducer;
+
+
+
+AHORA CREAMOS UN STORE:
+
+import {createStore, applyMiddleware, compose} from 'redux';
+import rootReducer from '../reducer/index';
+import thunk from 'redux-thunk';
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+1) le pasamos el reducer
+2) le pasamos el middleware thunk de redux - este es el famoso middleware que conecta las acciones, haciendo el dispatch de la accion, lo que anteriormente habiamos dicho
+
+export default store
+
+Se conecta el store con la App de react
+
+<Provider store = {store}>
+
+/// ---  Ahora conectemos con un Componente de Clase (la parte mas jodida)  --- ///
+
+
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Link } from 'react-router-dom';
+import './Buscador.css';
+import {getMovies, addMovieFavorite} from '../../actions'
+
+
+export class Buscador extends Component {
+  constructor(props) { --> 
+    super(props);
+    this.state = {
+      title: ""
+    };
+  }
+  handleChange(event) {
+    this.setState({ title: event.target.value });
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    this.props.getMovies(this.state.title); --> la funcion getMovie le llega por props al componente, como es de clase hacemos this.props.getMovies()
+    // la funcion se ejecuta y como variable le paso this.state.title
+  }
+
+  render() {
+    const { title } = this.state;
+    return (
+      <div>
+        <h2>Buscador</h2>
+        <form className="form-container" onSubmit={(e) => this.handleSubmit(e)}>
+          <div>
+            <label className="label" htmlFor="title">Película: </label>
+            <input
+              type="text"
+              id="title"
+              autoComplete="off"
+              value={title}
+              onChange={(e) => this.handleChange(e)}
+            />
+          </div>
+          <button type="submit">BUSCAR</button>
+        </form>
+        <ul>
+
+         {this.props.movies?.map(movie => { // this.props.movies es precisamente lo que me traigo del estado
+          return (
+            <li key={movie.imdbID}>
+            <Link to=''>{movie.Title}</Link>
+            
+            <p>{movie.Year}</p>
+            <button 
+            onClick={() => this.props.addMovie(
+            {title: movie.Title, 
+            id: movie.imdbID}
+            )
+            }>Fav</button>
+
+            </li>
+         )}
+         )};
+        </ul>
+      </div>
+    )  
+  }
+}
+
+1) usamos el connect 
+
+recibe dos funciones 
+-> una que se va a encargar de mapear el estado
+-> otra que se va a encargar de mapear el dispatch
+
+// el connect se va a encargar de pasarle ese parametro a la funcion, se encarga de pasarle el estado a la primer funcion
+
+
+function mapStateToProps(state) { 
+  return {
+    movies: state.moviesLoaded --> vamos a tener una propiedad movie que va a tener del estado state.moviesLoaded
+    (digamos que queremos otro)
+    movieDetail: state.movieDetail
+  };
+}  // esto es lo que el componente va a tener disponible del estado, almacenado en movie y movieDetail
+
+// esta segunda funcion recibe el dispatch, 
+// al igual que antes devuelve un objetito, pero en lugar de tener el estado en cada propiedad, va a tener una funcion para despachar la acción
+
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addMovieFavorite: movie => dispatch(addMovieFavorite(movie)), --> reciben cosas porque necesitamos dichas cosas para poder despachar, en algunas no necesitabamos
+    getMovies: title => dispatch(getMovies(title)) --> tanto getMovies() como addMovieFavorite() son funciones de las actions, entonces reciben por parámetro lo que les estamos pasando.
+
+  };
+}
+
+por ultimo se conecta 
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Buscador); --> este ultimo es el componente
+
+La otra forma del dispatch es pasarle un objetito y aca le paso las acciones, ejemplo:
+
+export default connect(mapStateToProps, {getMovies, addMovieFavorite} // para lo cual tengo que tener importadas las acciones 
+)(Buscador); --> este ultimo es el componente
+para lo anterior el import seria --> import {getMovies, addMovieFavorite} from '../../actions'
+
+
+En que caso Necesitamos connect? cuando lo necesitemos, cuando tengamos que conectar y despachar acciones
+
+
+
+
+
+
+
+
+
+como hacemos que el componente anterior sea funcional ??
+
+junto con las importaciones necesarias, tener en cuenta!!
+
+export default function Buscador (prop1, prop2) {
+  const [title, setTitle] = useState('')
+
+  let handleChange = (e) => {
+    setTitle(e.target.value)
+  }
+
+  let handleSubmit= (e) => {
+    e.preventDefault();
+  }
+}
+
+return 
+
+<div>
+<h2>Buscador</h2>
+<form className="form-container" onSubmit={(e) => this.handleSubmit(e)}>
+  <div>
+    <label className="label" htmlFor="title">Película: </label>
+    <input
+      type="text"
+      id="title"
+      autoComplete="off"
+      value={title}
+      onChange={(e) => this.handleChange(e)}
+    />
+  </div>
+  <button type="submit">BUSCAR</button>
+</form>
+<ul>
+ (de tarea modifica esta parte) 
+
+   {this.props.movies?.map(movie => {
+          return (
+            <li key={movie.imdbID}>
+            <Link to=''>{movie.Title}</Link>
+            
+            <p>{movie.Year}</p>
+            <button 
+            onClick={() => this.props.addMovie(
+            {title: movie.Title, 
+            id: movie.imdbID}
+            )
+            }>Fav</button>
+
+            </li>
+         )}
+         )};
+        </ul>
+
+</ul>
+</div>
+
+useEffect -->  se ejecuta apenas se empiece a mostrar el componente por pantalla, se ejecuta automaticamente
+
+cuando no tiene los brackets se crea una actualizacion o ciclo infinito, luego si le paso [] lo que este adentro se va a actualizar, en este caso, cuando el dispatch con ese valor interno sea modificado se activa el useEffect
+
+si su segundo parametro esta vacio ([]) solo se ejecuta una vez
+
+Si tiene algo se va a actualizar cada vez que hayan cambios
+
+Cada vez que haya un cambio de estados se va a actualizar el useEffect
+
+// Detail - props.match.params.id
+
+
+cuando yo ingreso a un url cada una de estas tiene history, params 
+
+ 

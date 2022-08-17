@@ -1,0 +1,30 @@
+.cards {
+  background: rgb(4, 180, 255);
+  margin: 35px;
+  width: 17rem;
+  border-radius: 10px;
+  display: inline-block;
+  transition: all 400ms ease;
+  box-sizing: content-box;
+  min-height: 150px;
+  border-color: #cc3709da;
+  border-width: 1.5px;
+  border-style: solid;
+}
+
+.names{
+  font-family: "Orelega one";
+font-size: 20px;
+color: #000000;
+text-decoration: none;
+}
+.type {
+display: flex;
+color: #3b0218;
+text-decoration: none;
+justify-content: center;
+align-items: center;
+}
+.type p{
+  margin:0px 7.5px;
+}
