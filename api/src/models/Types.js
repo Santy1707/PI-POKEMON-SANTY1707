@@ -5,7 +5,8 @@ module.exports = (sequelize) => {
   sequelize.define('types', {
     name: {  
       type: DataTypes.STRING, 
-      allowNull: false, 
+      allowNull: false,
+      unique: true 
     },
   /*  id: {
       type: DataTypes.UUID, 

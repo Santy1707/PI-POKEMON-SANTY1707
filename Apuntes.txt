@@ -11,8 +11,6 @@ SON LO MISMO!!
 
 
 
-
-
 FRONT --> 
 
 1) Crear el Store usando middleware thunk, el rootreducer y composeWithDevTools
@@ -300,12 +298,6 @@ para lo anterior el import seria --> import {getMovies, addMovieFavorite} from '
 
 
 En que caso Necesitamos connect? cuando lo necesitemos, cuando tengamos que conectar y despachar acciones
-
-
-
-
-
-
 
 
 

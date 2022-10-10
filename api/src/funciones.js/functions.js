@@ -3,7 +3,7 @@ const axios = require ('axios');
 // const Types = require('../models/Types');
 
 const getApiInfo = async () => {
-  // try {
+   try {
     const apiUrl = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=40') // llamo los datos de la API, aun no hemos accedido a los valor de cada pokemon
     console.log(apiUrl.data.results)
     const apiInfo = apiUrl.data.results.map( async (e) => await axios.get(e.url)) // aqui accede a la propiedad url de cada pokemon
@@ -28,14 +28,15 @@ const getApiInfo = async () => {
     )
    // .then(r => globalThis.pokeData = r)
    return globalThis.pokeData = pokeInfo
-    // console.log(pokeData)
+    console.log(pokeData)
     // let pokeDatabuena = pokeData.Array
     // return pokeData
         // aqui map me crea un array y luego en una constante guardo la informacion de cada Pokemon como un objeto
              // ponemos .data porque el axios da un data de cada uno de los 40 pokemones a los que llega, cada pokemon tiene su propia mini api por decirlo asi
-   // } catch (error) {
-   //     console.log(error.message)
-  // }
+    } catch (error) {
+        console.log(pokeData)
+        console.log(error.message)
+   }
 }
 
 getApiInfo()
@@ -57,7 +58,7 @@ const getDbInfo = async () => {
         console.log(datoLimpio) 
         return datoLimpio 
     } catch (error) {
-        res.status(404).send(error)
+        console.log({msg: error})
     } 
 }
 

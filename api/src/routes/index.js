@@ -22,7 +22,7 @@ router.get('/pokemons', async (req, res) => {
                 e => e.name.toLowerCase().includes(name.toLowerCase())) // usamos includes porque getAllPokemons retorna un array con objetos, yo quiero hacerle un filter a la variable donde tengo dicho array (pokemonsTotal) y quedarme solo con el objeto cuyo nombre coincida con el filter.
            pokemonName.length ?
            res.status(200).send(pokemonName) : 
-           res.status(404).send('No se encuentra el personaje con dicho nombre')
+           res.status(200).send('No se encuentra el personaje con dicho nombre')
         }
         else {
          //   let baseDeDatos = await getDbInfo()
@@ -41,24 +41,26 @@ router.get('/pokemons', async (req, res) => {
 
 router.get('/pokemons/:id', async (req, res, next) => {
     const {id} = req.params
-    const pokemonsTotal = await getAllPokemons()
-    console.log(id + ' texto')
     try {
         // esta funcion tiene tanto API COMO BASE DE DATOS, toda la informacion, ya la probé y funciona
         // console.log(pokemonsTotal)
-        if (id) {
-            let pokeId = pokemonsTotal.filter((e) => e.id == id)
-            // console.log(pokeId)
-            pokeId.length ?
-            res.status(200).json(pokeId) : 
-            res.status(404).send('No se encuentra el pokemon con dicho id')
+    getAllPokemons()
+    .then(data => { 
+        let pokeId = data.filter((e) => {
+            return e.id == id
+        })
+        console.log(data)
+    pokeId.length ?
+    res.status(200).json(pokeId) : 
+    res.status(404).send('No se encuentra el pokemon con dicho id')
+    })
+    // console.log(pokeId)
             // console.log(pokeId + 'hola no encontro el ID')
         //else if (pokeIdApi.length){
              //   res.status(200).json(pokeIdApi) 
             // } 
           //   console.log(pokeIdApi)
         }
-    } 
      catch (error) {
         next('no se encontro el pokemon con ese ID', error)
     }
@@ -68,15 +70,9 @@ router.get('/pokemons/:id', async (req, res, next) => {
 
 router.get ('/types', async (req, res) => {
     const typesInfo =  await axios.get('https://pokeapi.co/api/v2/type')
-         //   console.log(typesInfo.data.results)
+    
     const typesMap = typesInfo.data.results.map(e => e.name)
-         //   console.log(typesMap)
-  //  for (let i = 0; i < typesMap.length; i++) {
- //      console.log(typesMap[i])
-   //     Type.findOrCreate({
-   //         where: {name: typesMap[i]}
- //       })
- //   }
+         
     typesMap.forEach(i => {
      //   console.log(i)
         Types.findOrCreate({
@@ -118,7 +114,7 @@ router.post('/pokemons', async (req, res) => {
 router.delete('/pokemons/:id', async (req, res) =>{
      try {
          const {id} = req.params
-         const eliminado = await Pokemon.destroy({
+         await Pokemon.destroy({
              where: {
                 id,
              }
@@ -130,6 +126,23 @@ router.delete('/pokemons/:id', async (req, res) =>{
  }
 )
 
+router.put('/pokemons/:id', async (req, res) => {
+    try { 
+        const {id} = req.params
+        let {name, hp, attack, defense, speed, height, weight, image, types} = req.body
+       const pk = Pokemon.findByPk(id)
+       if(pk) {
+           const actualizado = Pokemon.update({name, hp, attack, defense, speed, height, weight, image, types}, {
+               where : {
+                   id    
+               }
+           })
+       }
+       res.status(200).send('pokemon actualizado')
+    } catch (error){
+        console.log(error)
+    }
+})
 // const {id} = req.params;
 // const pk = Pokemon.findByPk(id)
 // if (pk)

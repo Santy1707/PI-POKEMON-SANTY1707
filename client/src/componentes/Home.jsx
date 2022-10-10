@@ -15,7 +15,7 @@ const dispatch = useDispatch();
 const allPokemons = useSelector ((state) => state.pokemons)
 const [orden, setOrden] = useState('')
 const [currentPage, setCurrentPage] = useState(1) 
-const [pokemonsPerPage, setPokemonsPerPage] = useState(12) 
+const [pokemonsPerPage, setPokemonsPerPage] = useState(15) 
 const indexOfLastPokemon = currentPage * pokemonsPerPage 
 const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage 
 const currentPokemons = allPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon)

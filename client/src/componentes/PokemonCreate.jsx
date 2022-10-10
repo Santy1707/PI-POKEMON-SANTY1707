@@ -41,7 +41,7 @@ export default function PokemonCreate() {
             errors.height = 'Se requiere un valor menor al actual'
         } else if (input.weight > 2000000000) {
             errors.weight = 'Se requiere un valor menor al actual'
-        } else if (!input.types.length === 0 || input.types.length > 2) {
+        } else if (input.types.length === 0 || input.types.length > 2) {
             errors.types = 'Selecciona uno o dos tipos'
         } else if (!input.image) {
             errors.image = 'Se requiere una imagen'
@@ -66,6 +66,7 @@ function handleChange(e) {
 
 
 function handleSelect(e){
+    if (!input.types.includes(e.target.value))
     setInput({
         ...input,
         types: [...input.types, e.target.value]
@@ -101,6 +102,7 @@ function handleDelete(el) {
         ...input,
         types: input.types.filter(tp => tp !== el)
     })
+
 }
 
 useEffect(()=> {
@@ -113,7 +115,7 @@ useEffect(()=> {
             <Link to='/home'><button className='regresar'>Regresar</button></Link>
             <h1>Crea tu Pokemon!! </h1>
     
-    <form className = 'form'onSubmit={handleSubmit}>
+    <form className = 'form' onSubmit={handleSubmit}>
 
         <div>
             <label>Nombre:</label>
