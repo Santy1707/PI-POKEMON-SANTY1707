@@ -24,8 +24,8 @@ module.exports = (sequelize) => {
           msg: 'Solo se permiten letras'
         },
         len: {
-          args: [2, 12],
-          mas: 'Debe contener entre 2 y 12'
+          args: [2, 20],
+          mas: 'Debe contener entre 2 y 20'
         }
       }
     },
