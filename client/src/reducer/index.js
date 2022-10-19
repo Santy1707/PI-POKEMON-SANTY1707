@@ -2,7 +2,8 @@ const initialState = {
     pokemons : [],
     allPokemons: [],
     detail: [],
-    types: []
+    types: [],
+    pageSearchBar: 1
 };
 
 function rootReducer (state=initialState, action){
@@ -10,43 +11,43 @@ function rootReducer (state=initialState, action){
         case 'GET_POKEMONS':
             return {
                 ...state,
-                pokemons: action.payload,
-                allPokemons: action.payload
+                pokemons: action.payload, // 1 propiedad del estado con toda la info, tal cual como viene del back
+                allPokemons: action.payload // Lo mismo que antes, necesitamos tener una copia para aplicar ciertos filtros
             }
             case 'FILTER_BY_TYPE':
             const allPokemons = state.allPokemons;
             const statusFiltered = action.payload === 'All'? allPokemons : allPokemons.filter( el => el.types.includes(action.payload))   
-            // console.log(statusFiltered)
+            console.log(statusFiltered)
+            console.log(state.pokemons)
             return {
                 ...state,
-                pokemons: statusFiltered
+                pokemons: statusFiltered.length? statusFiltered: ['No hay pokemones de ese tipo']
                 }
 
             case 'ORDER_BY_NAME':
-            let sortedArr  = action.payload === 'asc'? state.pokemons.sort(function (a, b) {
-                if (a.name > b.name) {
-                    return 1;
+                let sortedArr = action.payload === "asc" ? state.pokemons.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return 1;
+                    }
+                    if (b.name > a.name) {
+                        return -1;
+                    }
+                    return 0;
+                }) :
+                state.pokemons.sort(function (a, b) {
+                    if (a.name > b.name) {
+                        return -1;
+                    }
+                    if (b.name > a.name) {
+                        return 1;
+                    } 
+                    return 0;
+                })
+            //  console.log(prueba1)
+                return {
+                    ...state,
+                    pokemons: sortedArr
                 }
-                if (b.name > a.name) {
-                    return -1;
-                }
-                return 0;
-            }) : 
-            state.pokemons.sort(function (a, b) {
-                if (a.name > b.name) {
-                    return -1;
-                }
-                if (b.name > a.name) {
-                    return 1;
-                } 
-                return 0;
-            })
-            // console.log(statusFiltered)
-            return {
-                ...state,
-                pokemons: sortedArr
-            }
-
             case 'ORDER_BY_ATTACK':
             let sortedByAttack = action.payload === 'min'? state.pokemons.sort(function (a, b) {
                 if (a.attack > b.attack) {

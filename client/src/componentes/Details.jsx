@@ -17,11 +17,10 @@ export default function Detail(props) {
 
     function handleDelete(id){
         dispatch(deleteById(id))
-        history.push('/home')
+        history.push('/pokemons')
     }
 
     const myPokemon = useSelector((state) => state.detail)
-    console.log(myPokemon)
     return (
         <div className='details'>
             { myPokemon.length > 0 && myPokemon[0].created && <p>Pokemon personalizado!!, crack :D</p>}
@@ -39,10 +38,10 @@ export default function Detail(props) {
                     <h2>Peso: {myPokemon[0].weight}</h2>
                     <h2>Typos: {myPokemon[0].types.map( tp => tp + ' ')}</h2>
                 {myPokemon[0].created && <button onClick={() => handleDelete(props.match.params.id)}>Eliminar pokemon</button>}
-                </div> : <p>Loading......</p>
+                </div> : <p>No hay pokemons con ese ID</p>
             }
         
-        <Link to='/home'>
+        <Link to='/pokemons'>
             <button>Volver</button>
         </Link>
 

@@ -1,24 +1,15 @@
 .details {
-    background: rgba(174, 170, 247, 0.87);
-    width: 25rem;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: all 400ms ease;
-    box-sizing: content-box;
-    min-height: 150px;
-    border-color: #cc3709da;
-    border-width: 1.5px;
-    border-style: solid;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;      
-    height: 100%;
-    width: 100%;       
-    overflow-y: scroll;
-    position: fixed;
+  margin: 35px;
+  width: 35rem;
+  border-radius: 10px;
+  display: inline-block;
+  transition: all 400ms ease;
+  box-sizing: content-box;
+  min-height: 150px;
+  border-color: none;
+  outline: none;
+  border: 0.5px solid rgb(0, 0, 0);
+  background-color: #9df2f2;
 }
 
 h1{
@@ -33,5 +24,4 @@ h1{
 
 .details-list h2{
     font-size: 20px;
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

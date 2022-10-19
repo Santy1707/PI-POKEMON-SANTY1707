@@ -94,7 +94,7 @@ function handleSubmit(e) {
         image: '',
         types: []
     })
-    history.push('/home')
+    history.push('/pokemons')
 }
 
 function handleDelete(el) {
@@ -112,7 +112,7 @@ useEffect(()=> {
     return (
         <div className="contenedor-principal-create">
 
-            <Link to='/home'><button className='regresar'>Regresar</button></Link>
+            <Link to='/pokemons'><button className='regresar'>Regresar</button></Link>
             <h1>Crea tu Pokemon!! </h1>
     
     <form className = 'form' onSubmit={handleSubmit}>

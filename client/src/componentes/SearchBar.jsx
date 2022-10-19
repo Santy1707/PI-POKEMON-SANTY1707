@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getPokemonByName } from "../actions";
 import './SearchBar.css'
 
-export default function SearchBar() {
+export default function SearchBar({setCurrentPage}) {
 const dispatch = useDispatch()
 const [name, setName] = useState('')
 
@@ -16,6 +16,8 @@ function handleInputChange (e) {
 function handleSubmit (e) {
     e.preventDefault()
     dispatch(getPokemonByName(name))
+    setName("")
+    setCurrentPage(1)
 }
 
 return ( 

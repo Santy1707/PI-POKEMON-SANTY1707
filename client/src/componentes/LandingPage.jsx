@@ -6,7 +6,7 @@ export default function LandingPage() {
     return (
         <div className='Landing'>
             <h1 className='text'>Que empiece la batalla!</h1>
-            <Link to ='/home'>
+            <Link to ='/pokemons'>
                 <button className='button'>Comenzar</button>
                 </Link>
         </div>

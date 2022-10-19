@@ -1,5 +1,5 @@
 .cards {
-  background: rgb(4, 180, 255);
+  background: transparent;
   margin: 35px;
   width: 17rem;
   border-radius: 10px;
@@ -7,24 +7,28 @@
   transition: all 400ms ease;
   box-sizing: content-box;
   min-height: 150px;
-  border-color: #cc3709da;
-  border-width: 1.5px;
-  border-style: solid;
+  border-color: none;
+  outline: none;
+  border: 0.5px solid rgb(0, 0, 0);
+  background-image: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
 }
 
 .names{
-  font-family: "Orelega one";
-font-size: 20px;
+font-size: 35px;
 color: #000000;
 text-decoration: none;
+text-shadow: bold;
 }
+
 .type {
 display: flex;
+font-size: 25px;
 color: #3b0218;
 text-decoration: none;
 justify-content: center;
 align-items: center;
 }
+
 .type p{
   margin:0px 7.5px;
 }

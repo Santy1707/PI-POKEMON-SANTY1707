@@ -4,6 +4,7 @@ import LandingPage from './componentes/LandingPage';
 import Home from './componentes/Home';
 import Detail from './componentes/Details';
 import PokemonCreate from './componentes/PokemonCreate'
+import Error404 from './componentes/Error404'
 
 function App() {
   return (
@@ -11,9 +12,10 @@ function App() {
     <div className="App">
       <Switch>
         <Route exact path ='/' component ={LandingPage}/>
-        <Route exact path ='/home' component ={Home}/>
-        <Route exact path ='/pokemons' component={PokemonCreate}/>
-        <Route exact path ='/home/:id' component ={Detail}/>
+        <Route exact path ='/pokemons' component ={Home}/>
+        <Route exact path ='/pokemons/create' component={PokemonCreate}/>
+        <Route exact path ='/pokemons/:id' component ={Detail}/>
+        <Route exact path={"*"} component={Error404}/>
       </Switch>
     </div>
     </BrowserRouter>

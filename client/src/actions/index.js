@@ -1,8 +1,13 @@
 import axios from 'axios'
 
+const API = "https://apppokemonback.herokuapp.com"
+
+// `${API}/pokemons`
+
+
 export function getPokemons() {
     return async function (dispatch) {
-        var json = await axios.get('http://localhost:3001/pokemons');
+        var json = await axios.get(`${API}/pokemons`);
          // aqui esta la magia de la conexión entre el Front y el Back
         return dispatch({
             type: 'GET_POKEMONS',
@@ -13,7 +18,7 @@ export function getPokemons() {
 
 export function getTypes() {
     return async function (dispatch) {
-      var json = await axios.get("http://localhost:3001/types");
+      var json = await axios.get("https://apppokemonback.herokuapp.com/types");
       return dispatch({
         type: "GET_TYPES",
         payload: json.data
@@ -24,10 +29,12 @@ export function getTypes() {
 export function getPokemonByName(name) {
   return async function (dispatch) {
     try {
-      var json = await axios.get("http://localhost:3001/pokemons?name=" + name)
+      var json = await axios.get("https://apppokemonback.herokuapp.com/pokemons?name=" + name)
+      console.log(json.data[0])
+      console.log(json.data)
       return dispatch({
         type: 'GET_POKEMON_NAME',
-        payload: json.data
+        payload: json.data 
       })
     } catch (error) {
       console.log(error)
@@ -38,7 +45,7 @@ export function getPokemonByName(name) {
 export function postPokemon(payload){
   try {
     return async function () {
-      const response = await axios.post("http://localhost:3001/pokemons", payload)
+      const response = await axios.post("https://apppokemonback.herokuapp.com/pokemons", payload)
       console.log(response)
       return response;
     }
@@ -50,7 +57,7 @@ export function postPokemon(payload){
 export function getDetail(id) {
     return async function (dispatch) {
       try{
-          var json = await axios.get(`http://localhost:3001/pokemons/${id}`);
+          var json = await axios.get(`https://apppokemonback.herokuapp.com/pokemons/${id}`);
       return dispatch({
         type: "GET_DETAILS",
         payload: json.data
@@ -62,7 +69,6 @@ export function getDetail(id) {
 }
   
 export function filterPokemonsByType(payload) {
-  console.log(payload)
   return {         
       type: 'FILTER_BY_TYPE',
       payload
@@ -93,7 +99,7 @@ export function orderByAttack(payload){
 export function deleteById(id) {
   return async function (dispatch) {
     try {
-      var response = await axios.delete(`http://localhost:3001/pokemons/${id}`)
+      var response = await axios.delete(`https://apppokemonback.herokuapp.com/pokemons/${id}`)
       .then(() => {alert('Pokemon eliminado')})
       return dispatch({
         type: 'DELETE_POKEMON',
