@@ -2,12 +2,12 @@
     width:40%;
     height:auto;
     justify-content: flex-end;
-    background-color: #c0eed7;
+    background-color: #8dede6;
     border-radius: 5px;
     margin: 3rem auto;
     -webkit-box-shadow: 10px 10px 16px 0px rgb(136, 166, 144);
-    -moz-box-shadow: 10px 10px 16px 0px rgb(92, 217, 234);
-    box-shadow: 10px 10px 16px 0px rgb(46, 135, 147);
+    -moz-box-shadow: 10px 10px 16px 0px rgb(133, 240, 244);
+    box-shadow: 10px 10px 16px 0px rgb(88, 203, 218);
     padding-bottom: 1rem;
 }
 
