@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Swal from 'sweetalert2';
 
-const API = "https://apppokemonback.herokuapp.com"
 
 // `${API}/pokemons`
 
