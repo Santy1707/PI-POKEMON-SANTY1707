@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import {postPokemon, getTypes, cleanState, getPokemons} from '../actions/index'
 import {useDispatch, useSelector} from 'react-redux'
 import './PokemonCreate.css'
-
+import Swal from 'sweetalert2'
 
 export default function PokemonCreate() {
     const dispatch = useDispatch();
@@ -99,7 +99,11 @@ function handleSubmit(e) {
         && !errors.weight && !errors.speed
         ) {    
         dispatch(postPokemon(input))
-        alert('Pokemon creado con exito!!, sos crack!')
+        Swal.fire({
+            title: 'Crack!!',
+            text: "Pokemon creado, grande!",
+            icon: 'success',
+        })
         setInput({
             name: '',
             hp: '',
@@ -113,7 +117,11 @@ function handleSubmit(e) {
         })
         history.push('/pokemons')
     } else {
-        alert('Completa todos los campos')
+        Swal.fire({
+            title: 'Incompleto',
+            text: "Por favor llena todos los campos de manera correcta",
+            icon: 'error',
+        })
     }
 }
 

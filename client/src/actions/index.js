@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Swal from 'sweetalert2';
 
 const API = "https://apppokemonback.herokuapp.com"
 
@@ -7,7 +8,7 @@ const API = "https://apppokemonback.herokuapp.com"
 
 export function getPokemons() {
     return async function (dispatch) {
-        var json = await axios.get(`http://localhost:3001/pokemons`);
+        const json = await axios.get(`http://localhost:3001/pokemons`);
          // aqui esta la magia de la conexión entre el Front y el Back
          console.log(json.data)
         return dispatch({
@@ -19,7 +20,7 @@ export function getPokemons() {
 
 export function getTypes() {
     return async function (dispatch) {
-      var json = await axios.get("http://localhost:3001/types");
+      const json = await axios.get("http://localhost:3001/types");
       return dispatch({
         type: "GET_TYPES",
         payload: json.data
@@ -31,8 +32,6 @@ export function getPokemonByName(name) {
   return async function (dispatch) {
     try {
       const json = await axios.get("http://localhost:3001/pokemons?name=" + name)
-      console.log(json.data[0])
-      console.log(json.data)
       return dispatch({
         type: 'GET_POKEMON_NAME',
         payload: json.data 
@@ -47,18 +46,17 @@ export function postPokemon(payload){
   try {
     return async function () {
       const response = await axios.post("http://localhost:3001/pokemons/", payload)
-      console.log(response)
       return response;
     }
-  } catch (error) {
-    console.log(error)
-  }  
+    } catch (error) {
+      console.log(error)
+    }  
 }
 
 export function getDetail(id) {
     return async function (dispatch) {
       try{
-          var json = await axios.get(`http://localhost:3001/pokemons/${id}`);
+          const json = await axios.get(`http://localhost:3001/pokemons/${id}`);
       return dispatch({
         type: "GET_DETAILS",
         payload: json.data
@@ -101,12 +99,20 @@ export function deleteById(id) {
   return async function (dispatch) {
     try {
       let response = await axios.delete(`http://localhost:3001/pokemons/${id}`)
-      .then(() => {alert('Pokemon eliminado')})
+      .then(() => {Swal.fire({
+        title: 'Completado',
+        text: "Pokemon eliminado",
+        icon: 'success',
+    })})
       return dispatch({
         type: 'DELETE_POKEMON',
       })
     } catch (error) {
-      alert('No se pudo eliminar')
+      Swal.fire({
+        title: 'No se pudo eliminar',
+        text: "El pokemon no se puede eliminar",
+        icon: 'error',
+    })
     }
   }
 }

@@ -8,7 +8,6 @@ import './Details.css'
 
 
 export default function Detail(props) {
-    console.log(props)
     const dispatch = useDispatch();
     const history = useHistory()
     
