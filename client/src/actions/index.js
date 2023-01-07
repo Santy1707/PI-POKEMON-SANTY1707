@@ -8,7 +8,7 @@ const API = "https://apppokemonback.herokuapp.com"
 
 export function getPokemons() {
     return async function (dispatch) {
-        const json = await axios.get(`http://localhost:3001/pokemons`);
+        const json = await axios.get(`/pokemons`);
          // aqui esta la magia de la conexión entre el Front y el Back
          console.log(json.data)
         return dispatch({
@@ -20,7 +20,7 @@ export function getPokemons() {
 
 export function getTypes() {
     return async function (dispatch) {
-      const json = await axios.get("http://localhost:3001/types");
+      const json = await axios.get("/types");
       return dispatch({
         type: "GET_TYPES",
         payload: json.data
@@ -31,7 +31,7 @@ export function getTypes() {
 export function getPokemonByName(name) {
   return async function (dispatch) {
     try {
-      const json = await axios.get("http://localhost:3001/pokemons?name=" + name)
+      const json = await axios.get("/pokemons?name=" + name)
       return dispatch({
         type: 'GET_POKEMON_NAME',
         payload: json.data 
@@ -45,7 +45,7 @@ export function getPokemonByName(name) {
 export function postPokemon(payload){
   try {
     return async function () {
-      const response = await axios.post("http://localhost:3001/pokemons/", payload)
+      const response = await axios.post("/pokemons/", payload)
       return response;
     }
     } catch (error) {
@@ -56,7 +56,7 @@ export function postPokemon(payload){
 export function getDetail(id) {
     return async function (dispatch) {
       try{
-          const json = await axios.get(`http://localhost:3001/pokemons/${id}`);
+          const json = await axios.get(`/pokemons/${id}`);
       return dispatch({
         type: "GET_DETAILS",
         payload: json.data
@@ -98,7 +98,7 @@ export function orderByAttack(payload){
 export function deleteById(id) {
   return async function (dispatch) {
     try {
-      let response = await axios.delete(`http://localhost:3001/pokemons/${id}`)
+      let response = await axios.delete(`/pokemons/${id}`)
       .then(() => {Swal.fire({
         title: 'Completado',
         text: "Pokemon eliminado",
