@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from 'react-redux';
-import {store} from './store'
-import axios from 'axios'
-axios.defaults.baseURL = 'https://pi-pokemon-santy1707-production.up.railway.app'
+import {store} from './store';
+import axios from 'axios';
+axios.defaults.baseURL = 'https://pi-pokemon-santy1707-production.up.railway.app/'
 
 ReactDOM.render(
   <Provider store={store}>
