@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Link, useHistory } from "react-router-dom";
-import {postPokemon, getTypes} from '../actions/index'
+import {postPokemon, getTypes, cleanState, getPokemons} from '../actions/index'
 import {useDispatch, useSelector} from 'react-redux'
 import './PokemonCreate.css'
 
@@ -11,10 +11,51 @@ export default function PokemonCreate() {
     const history = useHistory();
     const allPokemon = useSelector((state) => state.allPokemons)
     const [errors, setErrors] = useState({});
+
+    function validate(input) {
+        let errores = {};
+
+        if (allPokemon.find(el => el.name === input.name)) {
+            errores.name = 'El nombre ya existe'
+        } else if (!input.name) {
+            errores.name = 'El nombre es obligatorio'
+        } else if (input.name.length < 2 || input.name.length > 20) {
+            errores.name = 'Debe tener entre 2 y 20 caracteres'
+        } else if((!/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/.test(input.name.trim()))){
+            errores.name = "El campo nombre solo acepta letras"
+        }     
+        if (input.hp > 100 || input.hp < 0) {
+            errores.hp = 'Se requiere un valor entre 0 y 100'
+        }       
+        if (input.attack > 100 || input.attack < 0 ) {
+            errores.attack = 'Se requiere un valor entre 0 y 100'
+        } 
+        if (input.defense > 100 || input.defense < 0) {
+            errores.defense = 'Se requiere un valor entre 0 y 100'
+        }
+        if (input.speed > 100 || input.speed < 0) {
+            errores.speed = 'Se requiere un valor entre 0 y 100'
+        }        
+        if (input.height > 100 || input.height < 0) {
+            errores.height = 'Se requiere un valor entre 0 y 100'
+        } 
+        if (input.weight > 100 || input.weight < 0) {
+            errores.weight = 'Se requiere un valor entre 0 y 100'
+        } 
+        if (!input.types || input.types.length === 0 || input.types.length > 2) {
+            errores.types = 'Seleeciona uno o maximo dos tipos'
+        } 
+        if((!/.+\.(jpg|png)$/.test(input.image))){
+            errores.image = "La imagen debe ser de tipo jpg o png"
+        }
+        return errores;
+    };
+
+
     const [input, setInput] = useState({
-        name: '',
-        hp: '',
-        attack: '',
+        name: '', // asdasasasasasasasasasasasasasasasasasasasasasasas
+        hp: '', // 200002
+        attack: '', // 321231321
         defense: '',
         speed: '',
         height: '',
@@ -23,47 +64,17 @@ export default function PokemonCreate() {
         types: []
     })
 
-    function validate(input) {
-        let errors = {};
-        if (allPokemon.find(el => el.name === input.name)) {
-            errors.name = 'El nombre ya existe'
-        } else if (!input.name) {
-            errors.name = 'El nombre es obligatoio'
-        }  else if (input.hp > 2000000000) {
-            errors.hp = 'Se requiere un valor menor al actual'
-        } else if (input.attack > 2000000000) {
-            errors.attack = 'Se requiere un valor menor al actual'
-        } else if (input.defense > 2000000000) {
-            errors.defense = 'Se requiere un valor menor al actual'
-        } else if (input.speed > 2000000000) {
-            errors.speed = 'Se requiere un valor menor al actual'
-        } else if (input.height > 2000000000) {
-            errors.height = 'Se requiere un valor menor al actual'
-        } else if (input.weight > 2000000000) {
-            errors.weight = 'Se requiere un valor menor al actual'
-        } else if (input.types.length === 0 || input.types.length > 2) {
-            errors.types = 'Selecciona uno o dos tipos'
-        } else if (!input.image) {
-            errors.image = 'Se requiere una imagen'
-        } 
-        return errors;
-    };
-
-
 function handleChange(e) {
     setInput({
         ...input,
         [e.target.name]: e.target.value
     })
-    setErrors(validate({
+
+    setErrors( validate({
         ...input,
         [e.target.name]: e.target.value
     }))
-    console.log(allPokemon)
-    console.log(input)
-    console.log(errors)
 }
-
 
 function handleSelect(e){
     if (!input.types.includes(e.target.value))
@@ -75,26 +86,35 @@ function handleSelect(e){
         ...input,
         types: [...input.types, e.target.value]
     }))
-    console.log(input)
 }
 
 function handleSubmit(e) {
     e.preventDefault();
-    console.log(input)
-    dispatch(postPokemon(input))
-    alert('Pokemon creado con exito!!, sos crack!')
-    setInput({
-        name: '',
-        hp: '',
-        attack: '',
-        defense: '',
-        speed: '',
-        height: '',
-        weight: '',
-        image: '',
-        types: []
-    })
-    history.push('/pokemons')
+    if( input.name && input.attack && input.defense && input.height 
+        && input.hp && input.image && input.weight && input.speed 
+        && input.types && 
+        !errors.name && !errors.attack 
+        && !errors.defense && !errors.height
+        && !errors.hp && !errors.image 
+        && !errors.weight && !errors.speed
+        ) {    
+        dispatch(postPokemon(input))
+        alert('Pokemon creado con exito!!, sos crack!')
+        setInput({
+            name: '',
+            hp: '',
+            attack: '',
+            defense: '',
+            speed: '',
+            height: '',
+            weight: '',
+            image: '',
+            types: []
+        })
+        history.push('/pokemons')
+    } else {
+        alert('Completa todos los campos')
+    }
 }
 
 function handleDelete(el) {
@@ -102,115 +122,107 @@ function handleDelete(el) {
         ...input,
         types: input.types.filter(tp => tp !== el)
     })
-
 }
 
 useEffect(()=> {
     dispatch(getTypes())
+    dispatch(getPokemons())
 }, [dispatch])
 
-    return (
-        <div className="contenedor-principal-create">
 
-            <Link to='/pokemons'><button className='regresar'>Regresar</button></Link>
+    return (
+    <div className="contenedor-principal-create">
+
+        <Link to='/pokemons'><button className='regresar'>Regresar</button></Link>
             <h1>Crea tu Pokemon!! </h1>
     
     <form className = 'form' onSubmit={handleSubmit}>
 
         <div>
             <label>Nombre:</label>
-            <input
-            type= 'text'
-            value= {input.name}
-            name='name'
+            <input type= 'text' value= {input.name} name='name'
             onChange={handleChange}
             />
+
             {errors.name && (
-                <p className="error">{errors.name}</p>
+                <p className="danger">{errors.name}</p>
             )}
         </div>
+
         <div>
             <label>Vida:</label>
-            <input
-            type= 'text'
-            value= {input.hp}
-            name='hp'
+            <input type= 'number' value= {input.hp} name='hp'
             onChange={handleChange}
             />
+
              {errors.hp && (
-                <p className="error">{errors.hp}</p>
+                <p className="danger">{errors.hp}</p>
             )}
         </div>
+
         <div>
             <label>Ataque:</label>
-            <input
-            type= 'text'
-            value= {input.attack}
-            name='attack'
+            <input type= 'number' value= {input.attack} name='attack'
             onChange={handleChange}
             />
+
             {errors.attack && (
-                <p className="error">{errors.attack}</p>
+                <p className="danger">{errors.attack}</p>
             )}
         </div>
+
         <div>
             <label>Defensa:</label>
-            <input
-            type= 'text'
-            value= {input.defense}
-            name='defense'
+            <input  type= 'number' value= {input.defense} name='defense'
             onChange={handleChange}
             />
+
             {errors.defense && (
-                <p className="error">{errors.defense}</p>
+                <p className="danger">{errors.defense}</p>
             )}
         </div>
+
         <div>
             <label>Velocidad:</label>
-            <input
-            type= 'text'
-            value= {input.speed}
-            name='speed'
+            <input type= 'number' value= {input.speed} name='speed'
             onChange={handleChange}
             />
+
             {errors.speed && (
-                <p className="error">{errors.speed}</p>
+                <p className="danger">{errors.speed}</p>
             )}
         </div>
+
         <div>
             <label>Altura:</label>
-            <input
-            type= 'text'
-            value= {input.height}
-            name='height'
+            <input type= 'number' value= {input.height} name='height'
             onChange={handleChange}
             />
+
             {errors.height && (
-                <p className="error">{errors.height}</p>
+                <p className="danger">{errors.height}</p>
             )}
         </div>
+
         <div>
             <label>Peso:</label>
-            <input
-            type= 'text'
-            value= {input.weight}
-            name='weight'
+            <input type= 'number' value= {input.weight} name='weight'
             onChange={handleChange}
             />
+
             {errors.weight && (
-                <p className="error">{errors.weight}</p>
+                <p className="danger">{errors.weight}</p>
             )}
         </div>
+
         <div className="container-poke-image">
             <label>Imagen:</label>
-            <input
-            type= 'text'
-            value= {input.image}
-            name='image'
+            <input type= 'text' value= {input.image} name='image'
             onChange={handleChange}
             />
+           
             {errors.image && (
-                <p className="error">{errors.image}</p>
+                <p className="danger">{errors.image}</p>
             )}
         </div>
 
@@ -222,10 +234,12 @@ useEffect(()=> {
        </select>
 
        {input.types.map((tp, index) => <p key={index}>{ tp + ' '}</p>)}
-       {errors.input && (
-                <p className="error">{errors.input}</p>
+
+       {errors.types && (
+                <p className="danger">{errors.types}</p>
             )}
-       <button type='submit' disabled={Object.entries(errors).length? true: false}>Crear Pokemon</button>
+       <button className="regresar" type='submit' disabled={Object.entries(errors) === 0 ? true : false}>Crear Pokemon</button>
+       {/* {Object.entries(errors) !== 0 ? <p> Llena todos los campos </p>: <p>Formulario completado</p>}  */}
     </form>
      
      {input.types.map( (tp, index) => 

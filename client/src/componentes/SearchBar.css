@@ -3,14 +3,17 @@
     padding: 0.7em 1.7em;
     font-size: 18px;
     border-radius: 0.5em;
-    background: #e8e8e8;
-    border: 1px solid #e8e8e8;
-    transition: all .3s;
-    box-shadow: 6px 6px 12px #c5c5c5,
-                -6px -6px 12px #ffffff;
+    background: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
 }
-.button:active {
-  color: #666;
-  box-shadow: inset 4px 4px 12px #c5c5c5,
-              inset -4px -4px 12px #ffffff;
+
+.button:hover {
+  cursor: pointer;
+  color: white;
+  background: black;
+}
+
+input {
+  border-radius: 10%;
+  margin: 10px 10px 10px 10px;
+  height: 35px;
 }

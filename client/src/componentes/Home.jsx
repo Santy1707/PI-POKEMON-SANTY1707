@@ -8,12 +8,12 @@ import Paginado from "./Paginado";
 import SearchBar from "./SearchBar";
 import './Home.css'
 import imagen from './Imagenes/Icono.jpeg'
+import Loader from './Loader'
 
 export default function Home () {
 
 const dispatch = useDispatch();
 const allPokemons = useSelector ((state) => state.pokemons)
-const page = useSelector((state) => state.pageSearchBar)
 const [orden, setOrden] = useState('')
 const [currentPage, setCurrentPage] = useState(1) 
 const [pokemonsPerPage, setPokemonsPerPage] = useState(12) 
@@ -21,15 +21,14 @@ const indexOfLastPokemon = currentPage * pokemonsPerPage
 const indexOfFirstPokemon = indexOfLastPokemon - pokemonsPerPage 
 const currentPokemons = allPokemons.slice(indexOfFirstPokemon, indexOfLastPokemon)
 
-console.log(page)
-
+console.log(allPokemons[0])
 const paginado = (pageNumber) => {
     setCurrentPage(pageNumber)
 }
 
 useEffect (()=> {
     dispatch(getPokemons());  
-    setCurrentPage(page)
+    setCurrentPage(1)
 },[dispatch]); 
 
 function handleClick(e) {
@@ -67,17 +66,18 @@ function handleSortAttack(e) {
     setOrden( `Ordenado por ${e.target.value}` )
 }
 
-console.log(allPokemons)
-console.log(allPokemons)
 return (
-
-    <div>
+    <nav>
+        <div>
         <div className="nav">
-
         <div className="new-container">
-            <img style={{width: '50px'}} src= {imagen}/>
-        </div>
-      
+        <a className="button_pokebola" onClick={e => {handleClick(e)}}>
+            
+                <img style={{width: '50px', height: '50px' }} src= {imagen} alt='Icono de la pagina, XD'/>
+            
+        </a>
+    </div>
+
         <div className='container-filtros'>
         <h5>Filtrar por nombre</h5>
     <select onChange={ e => handleSort(e)}>
@@ -124,29 +124,26 @@ return (
         </div>   
         
         <Link to='/pokemons/create'>
-        <button className="poke-button"> Crear mi Pokemon!!</button>
+        <button className="button"> Crear mi Pokemon!!</button>
         </Link>
 
     <div className='container-search-bar'>
     <SearchBar
-    setCurrentPage={setCurrentPage}/>  
+    setCurrentPage={setCurrentPage}
+    />  
         </div>
         </div>
 
 <div className="container">
 <h1>Los Pokemones son lo maximo!</h1> 
-    
-    <button onClick={e => {handleClick(e)}}>
-        Volver a cargar todos los pokemons
-    </button> 
-
+     
         <Paginado
         pokemonsPerPage = {pokemonsPerPage} 
         allPokemons={allPokemons.length}
         paginado ={paginado}
         />
 
-    {allPokemons[0] !== "No se encuentra el personaje con dicho nombre" && allPokemons[0] !== "No hay pokemones de ese tipo" ? currentPokemons?.map((ele) => {
+    {allPokemons !== "No se encuentra el personaje con dicho nombre" && allPokemons[0] !== "No hay pokemones de ese tipo" ? currentPokemons?.map((ele) => {
         return (
             <>
                 <Link to ={'/pokemons/' + ele.id}>
@@ -154,10 +151,11 @@ return (
                 </Link>
             </>
         )
-    }): <p>{allPokemons[0]?allPokemons[0]: <p>Cargando Pokemones.......</p>}</p>}
+    }): <p>{allPokemons ? <h5> 'No hay pokemones de ese tipo' </h5>: <h5> Cargando....</h5> }</p>}
   
   </div>
   </div>
+    </nav>
 )
 }
 

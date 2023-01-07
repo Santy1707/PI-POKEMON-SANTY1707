@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDetail, deleteById } from '../actions/index';
+import { getDetail, deleteById, getPokemons, cleanState } from '../actions/index';
 import { useEffect } from 'react';
 import './Details.css'
+// import {ImagenRelleno} from './Imagenes/Icono2.jpeg'
 
 
 export default function Detail(props) {
@@ -13,6 +14,9 @@ export default function Detail(props) {
     
     useEffect (()=> {
         dispatch(getDetail(props.match.params.id))
+        return () => {
+            dispatch(cleanState())
+          }
     }, [dispatch])
 
     function handleDelete(id){
@@ -23,12 +27,14 @@ export default function Detail(props) {
     const myPokemon = useSelector((state) => state.detail)
     return (
         <div className='details'>
-            { myPokemon.length > 0 && myPokemon[0].created && <p>Pokemon personalizado!!, crack :D</p>}
+        
+        <div>
+        { myPokemon.length > 0 && myPokemon[0].created && <h2>Pokemon personalizado!!, crack :D</h2>}
             {
                 myPokemon.length > 0 ?
                 <div className='details_list'> 
-                    <h1>El gran {myPokemon[0].name}</h1>
-                    <img src={myPokemon[0].image}/>
+                    <h1> El gran {myPokemon[0].name} </h1>
+                    <img src={myPokemon[0].image} alt='Imagen del pokemon'/>
                     <h2>Numero de ID: {myPokemon[0].id}</h2>
                     <h2>Vida: {myPokemon[0].hp}</h2>
                     <h2>Ataque: {myPokemon[0].attack}</h2>
@@ -37,15 +43,19 @@ export default function Detail(props) {
                     <h2>Altura: {myPokemon[0].height}</h2>
                     <h2>Peso: {myPokemon[0].weight}</h2>
                     <h2>Typos: {myPokemon[0].types.map( tp => tp + ' ')}</h2>
-                {myPokemon[0].created && <button onClick={() => handleDelete(props.match.params.id)}>Eliminar pokemon</button>}
-                </div> : <p>No hay pokemons con ese ID</p>
+                {myPokemon[0].created && <button className='button_detail' onClick={() => handleDelete(props.match.params.id)}>Eliminar pokemon</button>}
+                </div> : <div className='details_list'><h2>No hay pokemons con ese ID</h2></div>
             }
-        
-        <Link to='/pokemons'>
-            <button>Volver</button>
+            <Link to='/pokemons'>
+            <button className='button_detail'>Volver</button>
         </Link>
+        </div>
 
         </div>
+
+        
+
+        
     )
 }
 

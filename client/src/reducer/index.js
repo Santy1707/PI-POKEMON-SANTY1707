@@ -3,7 +3,6 @@ const initialState = {
     allPokemons: [],
     detail: [],
     types: [],
-    pageSearchBar: 1
 };
 
 function rootReducer (state=initialState, action){
@@ -99,13 +98,21 @@ function rootReducer (state=initialState, action){
             }
 
             case 'GET_POKEMON_NAME':
+            let response = action.payload 
             return {
                 ...state,
-                pokemons: action.payload
+                pokemons: response.length? response : ['No hay pokemones con esesads nombre'],
             }
             case 'DELETE_POKEMON':
                 return{
                     ...state
+                }
+            case "CLEAN_STATE": 
+                return {
+                    ...state,
+                    detail: action.payload,
+                    pokemons: action.payload,
+                    allPokemons: action.payload
                 }
         default: return state
     } 

@@ -1,5 +1,4 @@
 .container-home{
-    background-image: url("");
     background-color: #e2e0e0;
     height: 100%;
     background-position: center;
@@ -8,11 +7,12 @@
     position: relative;
     width: 100%;
     }
+    
     .nav{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: rgba(0, 60, 255, 0.553);
+        background-color: rgba(60, 82, 151, 0.553);
     }
     .new-container{
         height: 50px;
@@ -20,15 +20,18 @@
         margin-left: 10px;
         margin-top: 10px;
     }
-    .contenedor-filtros select{
-       background:  rgba(242, 215, 255, 0.89)
-    }
+
+    .container-filtros {
+        display: flex;
+        justify-content: center;
+        margin: 15px 60px 15px 60px;
+     }
     
-    .poke-button{
-       background: rgba(147, 164, 174, 0.89)
-    }
-    
-    
+     h5 {
+        color: #000000;
+        margin-left: 15px;
+        margin-right: 5px;
+     }
     
     .title{
         font-size: 23px;
@@ -36,4 +39,47 @@
         font-family:  Geneva, Tahoma, sans-serif;
     }
     
-    
+    .button{
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: #090909;
+        padding: 0.4em 1.2em;
+        font-size: 14px;
+        border-radius: 0.5em;
+        background: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
+    }
+
+    .button:hover {
+      cursor: pointer;
+      color: white;
+      background: black;
+    }
+
+    a {
+        cursor: pointer;
+    }
+
+    h5 {
+        margin-top: 5px;
+        margin-bottom: 10px;
+        color: #090909;
+        padding: 0.2em 0.8em;
+        font-size: 12px;
+        border-radius: 0.3em;
+        background: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
+    }
+
+    select {
+        height: 30px;
+        border-radius: 0.5rem;
+    }
+
+    @media (max-width: 1250px) {
+        nav select,
+        nav input,
+        nav button,
+        nav img {
+          display: block;
+          width: 100%;
+        }
+      }

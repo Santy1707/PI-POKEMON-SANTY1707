@@ -1,0 +1,30 @@
+.paginado {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.paginado-button {
+    margin: 20px;
+}
+
+.button-paginado {
+        color: #090909;
+        padding: 0.6em 1.2em;
+        font-size: 14px;
+        border-radius: 0.5em;
+        background: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
+}
+
+.button-paginado:hover {
+    cursor: pointer;
+    color: white;
+    background: black;
+  }
+
+  .button-paginado:focus {
+    cursor: pointer;
+    color: white;
+    background: rgb(0, 0, 0);
+  }
+

@@ -12,16 +12,34 @@
   background-color: #9df2f2;
 }
 
-h1{
+ h1{
     margin: 10px;
+    margin-bottom: 30px;
 }
 
-.details-list img{
-    width: 272px;
-    margin-top: -57px;
-    
+.details_list img{
+    width: 300px;
+    height: 300px;
+    margin-top: -80px;
 }
 
-.details-list h2{
+.details_list h2{
+    margin: 10px;
     font-size: 20px;
 }
+
+.button_detail {
+    color: #090909;
+    padding: 0.6em 1.2em;
+    font-size: 14px;
+    border-radius: 0.5em;
+    background: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
+    margin-bottom: 10px;
+}
+
+.button_detail:hover {
+    cursor: pointer;
+    color: white;
+    background: black;
+    margin-bottom: 10px;
+  }

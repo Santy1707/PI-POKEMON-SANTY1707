@@ -1,40 +1,14 @@
 .contenedor-principal-create{
-    width: 50%;
-    margin: 0 auto;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;      
-    height: 100%;
-    width: 100%;       
-    overflow-y: scroll;
-    position: fixed;
-    background-image: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
-    overflow-anchor: 10px;
-}
-
-.container-poke-image{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
-    background-image: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
-}
-.contenedor-principal-create h1{
-    color: black;
-    font-size: 1.5rem;
-    padding-left: 0;
-}
-
-.contenedor-principal-create form div{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 10px;
-    background-image: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
-}
-.contenedor-principal-create form div input{
-    padding: 5px 8px;
-    border-radius: 2%;
+    width:40%;
+    height:auto;
+    justify-content: flex-end;
+    background-color: #c0eed7;
+    border-radius: 5px;
+    margin: 3rem auto;
+    -webkit-box-shadow: 10px 10px 16px 0px rgb(136, 166, 144);
+    -moz-box-shadow: 10px 10px 16px 0px rgb(92, 217, 234);
+    box-shadow: 10px 10px 16px 0px rgb(46, 135, 147);
+    padding-bottom: 1rem;
 }
 
 .form{
@@ -43,10 +17,13 @@
     flex-direction: column;
     align-items: center;
 }
-.select{
-    padding: 5px;
-    margin: 20px 0px;
-    width: 189px;
+
+.contenedor-principal-create form div{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    background-image: radial-gradient(circle at 120.71% 50%, #e9ffff 0, #c8ffff 25%, #9df2f2 50%, #6fd9df 75%, #41c5d3 100%);
 }
 
 .regresar{
@@ -58,6 +35,14 @@
 	cursor:pointer;
 	padding: 8px;
 }
-.error{
+
+.regresar:hover {
+    cursor: pointer;
+    color: white;
+    background: black;
+}
+
+.danger {
     color: red;
+    font-size: bold;
 }
